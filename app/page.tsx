@@ -1,65 +1,68 @@
+import { Container } from "@/components/ui/container";
 import Image from "next/image";
+import heroWide01 from "@/public/images/hero-wide-01.jpg";
+import { site } from "@/lib/site";
+import { ButtonLink } from "@/components/ui/Button";
+import { getAllArticles, getAllProperties } from "@/lib/content";
+import { PropertyCard } from "@/components/PropertyCard";
+import { ArticleCard } from "@/components/ArticleCard";
 
 export default function Home() {
+  const properties = getAllProperties();
+  const articles = getAllArticles();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <Container>
+      <section className="py-6 md:py-14" id="hero">
+        <div className="relative w-full aspect-4/3 md:aspect-3/1 mb-4 md:mb-8">
+          <Image
+            src={heroWide01}
+            alt="English coastline"
+            fill
+            className="object-cover"
+            sizes="(min-width: 768px) 1200px, 350px"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start gap-4 max-w-190">
+          <h1 className="text-display-mobile md:text-display">
+            {site.description}
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="md:text-lead text-muted">
+            Independently owned places to stay. Book direct.
           </p>
+          <ButtonLink variant="primary" href="/properties">
+            {" "}
+            View properties
+          </ButtonLink>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+      <section className="py-6 md:py-14">
+        <h2 className="text-heading-mobile md:text-heading">Our properties</h2>
+        {properties.length === 0 ? (
+          <p className="mt-6 text-muted">No properties to show yet.</p>
+        ) : (
+          <ul className="mt-4 md:mt-6 grid gap-4 md:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {properties.slice(0, 3).map((property) => (
+              <li key={property.slug}>
+                <PropertyCard property={property} description={true} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="py-6 md:py-14">
+        <h2 className="text-heading-mobile md:text-heading">
+          From the journal
+        </h2>
+        <ul className="mt-4 md:mt-6 grid gap-4 md:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {articles.slice(0, 3).map((article) => (
+            <li key={article.slug}>
+              <ArticleCard article={article} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    </Container>
   );
 }
