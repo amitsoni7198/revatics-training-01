@@ -40,7 +40,6 @@ const faqs = [
 ];
 
 export default function FaqPage() {
-  console.log(process.env.NEXT_PUBLIC_SITE_URL);
   return (
     <Container className="py-8 md:py-14">
       <h1 className="text-display-mobile md:text-display font-semibold">
