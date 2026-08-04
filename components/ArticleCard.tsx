@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ArticleWithSlug } from "@/lib/content";
+import { FormattedDate } from "@/components/ui/FormattedDate";
 
 const CARD_IMAGE_SIZES =
   "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 384px";
-
-const dateFormatter = new Intl.DateTimeFormat("en-GB", { dateStyle: "long" });
 
 export function ArticleCard({ article }: { article: ArticleWithSlug }) {
   const href = `/journal/${article.slug}`;
@@ -24,9 +23,7 @@ export function ArticleCard({ article }: { article: ArticleWithSlug }) {
         )}
       </div>
 
-      <p className="text-small text-muted">
-        {dateFormatter.format(new Date(article.date))}
-      </p>
+      <FormattedDate date={article.date} className="text-small text-muted" />
       <h3 className="text-subheading font-semibold">
         <Link href={href} className="hover:text-accent">
           {article.title}
