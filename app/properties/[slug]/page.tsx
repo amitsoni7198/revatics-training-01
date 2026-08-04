@@ -15,7 +15,7 @@ type PageProps = {
 export function generateStaticParams() {
   const properties = getAllProperties();
   return properties.map((property) => ({
-    slug: property.slug
+    slug: property.slug,
   }));
 }
 
@@ -54,7 +54,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                 key={`${image.src}-${index}`}
                 className={cn(
                   "relative w-full aspect-7/5 md:aspect-12/5 bg-surface",
-                  index === 3 && "hidden md:block"
+                  index === 3 && "hidden md:block",
                 )}
               >
                 <Image
@@ -77,7 +77,8 @@ export default async function PropertyDetailPage({ params }: PageProps) {
               Key facts
             </h2>
             <p className="text-small-mobile md:text-small text-muted">
-              Check in from {property.checkIn} · Check out by {property.checkOut}
+              Check in from {property.checkIn} · Check out by{" "}
+              {property.checkOut}
             </p>
             <p className="text-small-mobile md:text-small text-muted">
               {[
@@ -132,7 +133,10 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                           {room.features[0]}
                         </span>
                       )}
-                      <span className="md:hidden"> · From £{room.priceFrom}</span>
+                      <span className="md:hidden">
+                        {" "}
+                        · From £{room.priceFrom}
+                      </span>
                     </p>
                     <p className="mt-1 hidden md:block font-medium">
                       From £{room.priceFrom} per night
