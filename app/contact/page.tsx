@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { getAllProperties } from "@/lib/content";
 import { site } from "@/lib/site";
@@ -17,6 +18,13 @@ export default function ContactPage() {
       </h1>
       <p className="text-lead-mobile md:text-lead mt-2 text-muted">
         Enquiries go direct to each property.
+      </p>
+      <p className="text-small-mobile md:text-small mt-4 text-muted">
+        Have a quick question? Read our{" "}
+        <Link href="/faq" className="text-accent hover:underline">
+          FAQ
+        </Link>
+        .
       </p>
       <section className="mt-10 md:mt-14">
         <h2 className="text-heading-mobile md:text-heading font-semibold">

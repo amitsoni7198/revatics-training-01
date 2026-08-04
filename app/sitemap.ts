@@ -5,7 +5,7 @@ import { getAllProperties, getAllArticles } from "@/lib/content";
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = env.NEXT_PUBLIC_SITE_URL;
 
-  const pages = ["", "/properties", "/journal", "/about", "/contact"];
+  const pages = ["", "/properties", "/journal", "/about", "/contact", "/faq"];
   const staticRoutes = pages.map((path) => ({ url: `${base}${path}` }));
 
   const properties = getAllProperties().map((property) => ({

@@ -1,36 +1,90 @@
 # Decisions
 
-Records of decisions that a LEDGER rule requires to be written down.
+The choices that were not obvious, with the option I picked and what I turned
+down.
 
-## `use client` justifications
+## Content shape
 
-### `components/ui/FormattedDate.tsx`
+**Decision:** each field in the content files is marked as required or optional
+based on what the files actually contain and what the pages need. For example a
+property must have a name, town, hero image and at least one room; a gallery is
+optional.
 
-**Browser API required:** `Intl.DateTimeFormat` resolving the viewer's own
-locale and timezone at runtime.
+**Why:** if everything were optional, every page would need extra checks and a
+missing important field would slip through silently.
 
-**Why the server cannot do this:** RV-G02 requires dates to be formatted at
-render time in the user's locale and timezone. The pages that render dates
-(journal list, journal detail, article cards) are statically generated
-(`generateStaticParams`), so on the server the visitor's locale/timezone is
-unknown — server formatting would bake in a single build-time locale. Only
-client-side `Intl` can resolve the actual viewer's locale, so this must run in
-the browser.
+**Instead of:** making everything optional, which passes validation but proves
+nothing.
 
-`inline `style`in`opengraph-image`
+## Images without real files
 
-**Decision:** the `opengraph-image.tsx` files use inline `style` objects.
+**Decision:** where there was no real image for something (room photos, staff
+portraits, the map), the page shows a plain grey box in the right shape.
 
-**Why:** they render through `next/og`'s `ImageResponse`, which does not support
-Tailwind classes — only inline styles. RV-C04 permits inline style for
-genuinely rendered/computed values, which this is. These files run server-side
-(build/request time), so no client component is involved.
+**Why:** the content pack did not include those images. A grey placeholder keeps
+the layout correct and is easy to swap for a real image later.
 
-`dangerouslySetInnerHTML` for JSON-LD
+**Instead of:** inventing or reusing unrelated images.
 
-**Decision:** property structured data is injected with a plain `<script
-type="application/ld+json">` using `dangerouslySetInnerHTML`.
+## Only one browser component
 
-**Why:** this is the standard Next pattern for JSON-LD and needs no client
-component. The input is our own typed object run through `JSON.stringify` — not
-user input — so there is no injection risk.
+**Decision:** the whole site is server-rendered except for the date label,
+which runs in the browser.
+
+**Why:** dates should read in the visitor's own locale, and only the browser
+knows what that is. It is kept to a single small piece so the rest of the site
+stays fast and simple.
+
+**Instead of:** making larger parts of the site run in the browser.
+
+## No custom error page
+
+**Decision:** there is no custom `error.tsx`. The site relies on the framework's
+built-in error handling, plus the content being checked at build time so a bad
+file stops the build instead of breaking a live page. Wrong URLs show a friendly
+"page not found".
+
+**Why:** a custom error page would have to run in the browser, and the content
+checks already remove the main way a page could fail.
+
+## About, contact and FAQ are static
+
+**Decision:** the About, Contact and FAQ pages keep their text directly in the
+page, not in MDX files.
+
+**Why:** their content is short and fixed, so a full content pipeline would be
+more setup than it is worth. Properties and journal articles, which are many and
+change often, do use MDX.
+
+## Dates
+
+**Decision:** dates are stored in the files in a plain year-month-day format and
+formatted for display with the browser's built-in date formatter.
+
+**Why:** storing a simple, sortable date and formatting it at display time avoids
+hand-built date strings and keeps sorting reliable.
+
+## Social share images
+
+**Decision:** the Open Graph images are built with inline styles.
+
+**Why:** the tool that generates these images does not support the normal styling
+classes, so inline styles are the only option.
+
+## Property structured data
+
+**Decision:** each property page includes a small block of structured data for
+search engines, added with a script tag.
+
+**Why:** this is the standard way to add it, and the data is our own, built from
+the property, so there is no safety concern.
+
+## Contact details
+
+**Decision:** the contact page shows the one shared email and phone number for
+every property, and the town and county for the address.
+
+**Why:** the content does not include a separate email, phone or street address
+per property, so the shared contact details and the location we do have are used.
+
+**Instead of:** making up an address, email and phone for each house.
