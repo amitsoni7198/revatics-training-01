@@ -7,7 +7,7 @@ const CARD_IMAGE_SIZES = "(max-width: 768px) 350px, 384px";
 
 export function PropertyCard({
   property,
-  description = false
+  description = false,
 }: {
   property: PropertyWithSlug;
   description?: boolean;
