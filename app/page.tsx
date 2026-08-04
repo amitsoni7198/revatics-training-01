@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import Image from "next/image";
 import heroWide01 from "@/public/images/hero-wide-01.jpg";
@@ -6,6 +7,10 @@ import { ButtonLink } from "@/components/ui/Button";
 import { getAllArticles, getAllProperties } from "@/lib/content";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ArticleCard } from "@/components/ArticleCard";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   const properties = getAllProperties();

@@ -41,6 +41,7 @@ const people = [
 export const metadata: Metadata = {
   title: "About",
   description: subtitle,
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

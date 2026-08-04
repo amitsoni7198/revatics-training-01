@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Menu } from "lucide-react";
 import { site } from "@/lib/site";
 import { Container } from "@/components/ui/container";
 
@@ -15,7 +14,10 @@ export function Header() {
           <ul className="flex gap-8">
             {site.nav.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className=" text-accent font-medium hover:text-muted">
+                <Link
+                  href={item.href}
+                  className=" text-accent font-medium hover:text-muted"
+                >
                   {item.label}
                 </Link>
               </li>
@@ -25,7 +27,9 @@ export function Header() {
 
         <details className="relative md:hidden">
           <summary className="flex cursor-pointer items-center rounded px-4 py-4">
-            <div className="py-2 text-micro bg-accent h-8 w-11 flex items-center justify-center text-canvas">{site.menuLabel}</div>
+            <div className="py-2 text-micro bg-accent h-8 w-11 flex items-center justify-center text-canvas">
+              {site.menuLabel}
+            </div>
           </summary>
           <nav
             aria-label="Primary"

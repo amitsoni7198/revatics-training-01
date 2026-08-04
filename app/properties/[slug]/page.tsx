@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { ButtonLink } from "@/components/ui/Button";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { getAllProperties, getProperty } from "@/lib/content";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
+import { env } from "@/lib/env";
 
 type PageProps = {
   params: Promise<{
@@ -19,6 +21,21 @@ export function generateStaticParams() {
   }));
 }
 
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const property = getProperty(slug);
+  if (!property) {
+    return {};
+  }
+  return {
+    title: property.name,
+    description: property.summary,
+    alternates: { canonical: `/properties/${slug}` },
+  };
+}
+
 export default async function PropertyDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const property = getProperty(slug);
@@ -26,8 +43,26 @@ export default async function PropertyDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    name: property.name,
+    description: property.summary,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: property.town,
+      addressRegion: property.county,
+    },
+    image: `${env.NEXT_PUBLIC_SITE_URL}${property.heroImage}`,
+    url: `${env.NEXT_PUBLIC_SITE_URL}/properties/${slug}`,
+  };
+
   return (
     <Container>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <section className="py-6 md:py-14">
         <div className="text-small-mobile md:text-small text-muted">
           <Link href="/properties">Properties</Link> / {property.name}
