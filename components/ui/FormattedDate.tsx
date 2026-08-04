@@ -1,17 +1,13 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 
-// Publication dates are calendar dates (no time-of-day), so format in UTC to
-// keep the stored day stable across timezones; the locale is left to the
-// viewer's runtime (RV-G02 / RV-G03).
-const formatDate = (iso: string) =>
-  new Intl.DateTimeFormat(undefined, {
-    dateStyle: "long",
-    timeZone: "UTC",
-  }).format(new Date(iso));
-
-const emptySubscribe = () => () => {};
+const options: Intl.DateTimeFormatOptions = {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+};
 
 export function FormattedDate({
   date,
@@ -20,18 +16,21 @@ export function FormattedDate({
   date: string;
   className?: string;
 }) {
-  // getServerSnapshot renders the build-time locale into the HTML; getSnapshot
-  // re-formats in the viewer's actual locale on the client. useSyncExternalStore
-  // makes this mismatch hydration-safe (returned strings compare by value).
-  const formatted = useSyncExternalStore(
-    emptySubscribe,
-    () => formatDate(date),
-    () => formatDate(date),
+  const [text, setText] = useState(() =>
+    new Date(date).toLocaleDateString("en-GB", options),
   );
 
+  useEffect(() => {
+    const formatted = new Date(date).toLocaleDateString(undefined, options);
+    const handle = requestAnimationFrame(() => {
+      setText(formatted);
+    });
+    return () => cancelAnimationFrame(handle);
+  }, [date]);
+
   return (
-    <time dateTime={date} className={className} suppressHydrationWarning>
-      {formatted}
+    <time dateTime={date} className={className}>
+      {text}
     </time>
   );
 }

@@ -6,6 +6,7 @@ import { getAllProperties } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Properties",
   description: "All six Harbourview Collective guesthouses on the south coast.",
+  alternates: { canonical: "/properties" },
 };
 
 export default function PropertiesPage() {
@@ -13,7 +14,9 @@ export default function PropertiesPage() {
 
   return (
     <Container className="py-12">
-      <h1 className="font-serif text-display-mobile md:text-display font-semibold">Our properties</h1>
+      <h1 className="font-serif text-display-mobile md:text-display font-semibold">
+        Our properties
+      </h1>
       {properties.length === 0 ? (
         <p className="mt-6 text-muted">No properties to show yet.</p>
       ) : (

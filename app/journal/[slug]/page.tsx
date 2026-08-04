@@ -27,7 +27,11 @@ export async function generateMetadata({
   if (!article) {
     return {};
   }
-  return { title: article.title, description: article.excerpt };
+  return {
+    title: article.title,
+    description: article.excerpt,
+    alternates: { canonical: `/journal/${slug}` },
+  };
 }
 
 export default async function ArticleDetailPage({ params }: PageProps) {

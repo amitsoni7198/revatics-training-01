@@ -5,6 +5,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contact",
   description: "Enquiries go direct to each property.",
+  alternates: { canonical: "/contact" },
 };
 export default function ContactPage() {
   const properties = getAllProperties();
