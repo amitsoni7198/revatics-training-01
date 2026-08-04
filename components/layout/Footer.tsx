@@ -11,7 +11,9 @@ export function Footer() {
         <div className="grid gap-2.5 md:gap-12 md:grid-cols-3">
           <div>
             <p className="font-semibold">{site.footerName}</p>
-            <p className="mt-2.5 text-muted hidden md:block">{site.footerDescription}</p>
+            <p className="mt-2.5 text-muted hidden md:block">
+              {site.footerDescription}
+            </p>
           </div>
 
           <nav aria-label="Footer" className="text-small">
@@ -41,7 +43,10 @@ export function Footer() {
             </p>
             <ul className="flex md:flex-col md:mt-2.5 md:space-y-2 text-muted">
               <li>
-                <a href={`mailto:${site.contact.email}`} className="hover:text-accent">
+                <a
+                  href={`mailto:${site.contact.email}`}
+                  className="hover:text-accent"
+                >
                   {site.contact.email}
                 </a>
               </li>
@@ -58,7 +63,9 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="text-micro mt-2.5 md:mt-8 text-muted">© {site.footerName}</p>
+        <p className="text-micro mt-2.5 md:mt-8 text-muted">
+          © {site.footerName}
+        </p>
       </Container>
     </footer>
   );

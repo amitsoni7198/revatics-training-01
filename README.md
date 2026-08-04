@@ -4,7 +4,7 @@ A marketing website for a small group of six independent guesthouses on the
 south coast of England. It shows the properties, a journal of local articles,
 an about page, a contact page and an FAQ.
 
-**Live site:** `<add-your-vercel-url>`
+**Live site:** `https://revatics-training-01.vercel.app/`
 
 ## Tech
 

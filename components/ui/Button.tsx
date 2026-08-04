@@ -7,8 +7,10 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-accent  hover:opacity-90 text-micro md:text-small text-canvas",
-        outline: "border border-border text-micro md:text-small text-ink hover:bg-surface",
+        primary:
+          "bg-accent  hover:opacity-90 text-micro md:text-small text-canvas",
+        outline:
+          "border border-border text-micro md:text-small text-ink hover:bg-surface",
       },
       size: {
         default: "px-8 py-4",
@@ -25,7 +27,7 @@ export const buttonVariants = cva(
 type ButtonProps = React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants>;
 
-  type ButtonLinkProps = React.ComponentProps<typeof Link> &
+type ButtonLinkProps = React.ComponentProps<typeof Link> &
   VariantProps<typeof buttonVariants>;
 
 export function Button({ className, variant, size, ...props }: ButtonProps) {
@@ -37,8 +39,18 @@ export function Button({ className, variant, size, ...props }: ButtonProps) {
   );
 }
 
-export function ButtonLink({ className, variant, size, href, ...props }: ButtonLinkProps) {
+export function ButtonLink({
+  className,
+  variant,
+  size,
+  href,
+  ...props
+}: ButtonLinkProps) {
   return (
-    <Link href={href} className={cn(buttonVariants({ variant, size }), className)} {...props}/>
+    <Link
+      href={href}
+      className={cn(buttonVariants({ variant, size }), className)}
+      {...props}
+    />
   );
 }
