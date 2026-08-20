@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const roomSchema = z.object({
   name: z.string().min(1),
@@ -9,7 +9,7 @@ const roomSchema = z.object({
 });
 
 const galleryImageSchema = z.object({
-  src: z.string().startsWith("/images/"),
+  src: z.string().startsWith('/images/'),
   alt: z.string().min(1),
 });
 
@@ -18,7 +18,7 @@ export const propertySchema = z.object({
   town: z.string().min(1),
   county: z.string().min(1),
   summary: z.string().min(1),
-  heroImage: z.string().startsWith("/images/"),
+  heroImage: z.string().startsWith('/images/'),
   heroImageAlt: z.string().min(1),
   checkIn: z.string().regex(/^\d{2}:\d{2}$/),
   checkOut: z.string().regex(/^\d{2}:\d{2}$/),
@@ -28,7 +28,7 @@ export const propertySchema = z.object({
   facilities: z.array(z.string().min(1)).min(1),
   rooms: z.array(roomSchema).min(1),
   gallery: z.array(galleryImageSchema).default([]),
-  dogsAllowed: z.boolean().default(false),
+  dogsAllowed: z.boolean().optional(),
 });
 
 export const articleSchema = z
@@ -37,14 +37,14 @@ export const articleSchema = z
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     author: z.string().min(1),
     excerpt: z.string().min(1),
-    image: z.string().startsWith("/images/").optional(),
+    image: z.string().startsWith('/images/').optional(),
     imageAlt: z.string().min(1).optional(),
     tags: z.array(z.string().min(1)).default([]),
     draft: z.boolean().default(false),
   })
   .refine((article) => !article.image || Boolean(article.imageAlt), {
-    message: "imageAlt is required when image is set",
-    path: ["imageAlt"],
+    message: 'imageAlt is required when image is set',
+    path: ['imageAlt'],
   });
 
 export type Property = z.infer<typeof propertySchema>;

@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
-import { Container } from "@/components/ui/container";
-import { ButtonLink } from "@/components/ui/Button";
-import Link from "next/link";
-import { getAllProperties, getProperty } from "@/lib/content";
-import { notFound } from "next/navigation";
-import Image from "next/image";
-import { cn } from "@/lib/cn";
-import { env } from "@/lib/env";
+import type { Metadata } from 'next';
+import { Container } from '@/components/ui/container';
+import { ButtonLink } from '@/components/ui/Button';
+import Link from 'next/link';
+import { getAllProperties, getProperty } from '@/lib/content';
+import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import { cn } from '@/lib/cn';
+import { env } from '@/lib/env';
 
 type PageProps = {
   params: Promise<{
@@ -43,13 +43,17 @@ export default async function PropertyDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  const { default: PropertyBody } = await import(
+    `@/content/properties/${slug}.mdx`
+  );
+
   const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LodgingBusiness",
+    '@context': 'https://schema.org',
+    '@type': 'LodgingBusiness',
     name: property.name,
     description: property.summary,
     address: {
-      "@type": "PostalAddress",
+      '@type': 'PostalAddress',
       addressLocality: property.town,
       addressRegion: property.county,
     },
@@ -70,16 +74,17 @@ export default async function PropertyDetailPage({ params }: PageProps) {
         <h1 className="text-display-mobile md:text-display font-semibold">
           {property.name}
         </h1>
-        <p className=" text-muted">
+        <p className="text-muted">
           {property.town}, {property.county}
         </p>
-        <div className="relative w-full aspect-4/3 md:aspect-3/1 mb-2.5 md:mb-3 mt-4 md:mt-6">
+        <div className="relative mt-4 mb-2.5 aspect-4/3 w-full md:mt-6 md:mb-3 md:aspect-3/1">
           <Image
             src={property.heroImage}
             alt={property.heroImageAlt}
             fill
+            priority
             className="object-cover"
-            sizes="(min-width: 768px) 1200px, 350px"
+            sizes="(min-width: 768px) 1200px, 100vw"
           />
         </div>
         {property.gallery.length > 0 && (
@@ -88,8 +93,8 @@ export default async function PropertyDetailPage({ params }: PageProps) {
               <div
                 key={`${image.src}-${index}`}
                 className={cn(
-                  "relative w-full aspect-7/5 md:aspect-12/5 bg-surface",
-                  index === 3 && "hidden md:block",
+                  'bg-surface relative aspect-4/3 w-full md:aspect-3/2',
+                  index === 3 && 'hidden md:block',
                 )}
               >
                 <Image
@@ -106,24 +111,24 @@ export default async function PropertyDetailPage({ params }: PageProps) {
       </section>
 
       <section className="pb-10 md:grid md:grid-cols-3 md:gap-x-16 md:gap-y-7 md:pb-14">
-        <aside className="md:col-start-3 md:row-start-1 md:row-span-2">
-          <div className="flex flex-col gap-2.5 border border-border bg-surface p-4 md:p-7">
+        <aside className="md:col-start-3 md:row-span-2 md:row-start-1">
+          <div className="border-border bg-surface flex flex-col gap-2.5 border p-4 md:p-7">
             <h2 className="text-subheading-mobile md:text-subheading font-semibold">
               Key facts
             </h2>
             <p className="text-small-mobile md:text-small text-muted">
-              Check in from {property.checkIn} · Check out by{" "}
+              Check in from {property.checkIn} · Check out by{' '}
               {property.checkOut}
             </p>
             <p className="text-small-mobile md:text-small text-muted">
               {[
                 `${property.rooms.length} rooms`,
-                property.dogsAllowed && "Dogs welcome",
-                property.parking && "Parking",
-                property.wifi && "Wi-Fi",
+                property.dogsAllowed && 'Dogs welcome',
+                property.parking && 'Parking',
+                property.wifi && 'Wi-Fi',
               ]
                 .filter(Boolean)
-                .join(" · ")}
+                .join(' · ')}
             </p>
             <ButtonLink
               href={property.bookingUrl}
@@ -136,11 +141,13 @@ export default async function PropertyDetailPage({ params }: PageProps) {
           </div>
         </aside>
 
-        <div className="mt-4 md:mt-0 md:col-span-2 md:col-start-1 md:row-start-1">
+        <div className="mt-4 md:col-span-2 md:col-start-1 md:row-start-1 md:mt-0">
           <h2 className="text-heading-mobile md:text-heading font-semibold">
             About the property
           </h2>
-          <p className="mt-5 md:mt-7 text-muted">{property.summary}</p>
+          <div className="mt-5 md:mt-7">
+            <PropertyBody />
+          </div>
         </div>
 
         <div className="mt-5 md:col-span-2 md:col-start-1 md:row-start-2 md:mt-0">
@@ -150,30 +157,26 @@ export default async function PropertyDetailPage({ params }: PageProps) {
             </h2>
             <ul className="mt-6 space-y-5 md:space-y-7">
               {property.rooms.map((room) => (
-                <li
-                  key={room.name}
-                  className="flex flex-col gap-2 md:flex-row md:items-center md:gap-5 "
-                >
-                  <div className="relative w-full aspect-35/16 bg-surface md:w-40 md:shrink-0 md:aspect-16/11" />
+                <li key={room.name}>
                   <div>
                     <h3 className="text-subheading-mobile md:text-subheading font-semibold">
                       {room.name}
                     </h3>
-                    <p className="mt-1 text-small-mobile md:text-small text-muted">
+                    <p className="text-small-mobile md:text-small text-muted mt-1">
                       Sleeps {room.sleeps}
-                      {room.ensuite && " · En suite"}
+                      {room.ensuite && ' · En suite'}
                       {room.features[0] && (
                         <span className="hidden md:inline">
-                          {" · "}
+                          {' · '}
                           {room.features[0]}
                         </span>
                       )}
                       <span className="md:hidden">
-                        {" "}
+                        {' '}
                         · From £{room.priceFrom}
                       </span>
                     </p>
-                    <p className="mt-1 hidden md:block font-medium">
+                    <p className="mt-1 hidden font-medium md:block">
                       From £{room.priceFrom} per night
                     </p>
                   </div>
@@ -190,7 +193,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
               {property.facilities.map((facility) => (
                 <li
                   key={facility}
-                  className="flex aspect-91/32 items-center justify-center bg-surface px-3 text-center text-small-mobile md:text-small text-muted"
+                  className="bg-surface text-small-mobile md:text-small text-muted flex items-center justify-center px-3 py-4 text-center"
                 >
                   {facility}
                 </li>
@@ -204,7 +207,19 @@ export default async function PropertyDetailPage({ params }: PageProps) {
         <h2 className="text-heading-mobile md:text-heading font-semibold">
           Location
         </h2>
-        <div className="relative mt-6 w-full aspect-35/22 bg-surface md:aspect-15/4" />
+        <p className="text-muted mt-6">
+          {property.name} is in {property.town}, {property.county}.
+        </p>
+        <a
+          href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(
+            `${property.name}, ${property.town}, ${property.county}`,
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-accent mt-2 inline-block font-medium hover:underline"
+        >
+          View {property.name} on the map
+        </a>
       </section>
     </Container>
   );

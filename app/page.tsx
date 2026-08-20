@@ -1,15 +1,18 @@
-import type { Metadata } from "next";
-import { Container } from "@/components/ui/container";
-import Image from "next/image";
-import heroWide01 from "@/public/images/hero-wide-01.jpg";
-import { site } from "@/lib/site";
-import { ButtonLink } from "@/components/ui/Button";
-import { getAllArticles, getAllProperties } from "@/lib/content";
-import { PropertyCard } from "@/components/PropertyCard";
-import { ArticleCard } from "@/components/ArticleCard";
+import type { Metadata } from 'next';
+import { Container } from '@/components/ui/container';
+import Image from 'next/image';
+import heroWide01 from '@/public/images/hero-wide-01.jpg';
+import { site } from '@/lib/site';
+import { ButtonLink } from '@/components/ui/Button';
+import { getAllArticles, getAllProperties } from '@/lib/content';
+import { PropertyCard } from '@/components/PropertyCard';
+import { ArticleCard } from '@/components/ArticleCard';
 
 export const metadata: Metadata = {
-  alternates: { canonical: "/" },
+  title: 'Coastal guesthouses on the south coast of England',
+  description:
+    'Harbourview Collective is six independently owned guesthouses between Rye and Salcombe. Browse the houses, read the journal, and book direct.',
+  alternates: { canonical: '/' },
 };
 
 export default function Home() {
@@ -19,16 +22,17 @@ export default function Home() {
   return (
     <Container>
       <section className="py-6 md:py-14" id="hero">
-        <div className="relative w-full aspect-4/3 md:aspect-3/1 mb-4 md:mb-8">
+        <div className="relative mb-4 aspect-4/3 w-full md:mb-8 md:aspect-3/1">
           <Image
             src={heroWide01}
-            alt="English coastline"
+            alt="Cliffs above the sea along the English south coast"
             fill
+            priority
             className="object-cover"
-            sizes="(min-width: 768px) 1200px, 350px"
+            sizes="(min-width: 768px) 1200px, 100vw"
           />
         </div>
-        <div className="flex flex-col items-start justify-start gap-4 max-w-190">
+        <div className="flex max-w-190 flex-col items-start justify-start gap-4">
           <h1 className="text-display-mobile md:text-display">
             {site.description}
           </h1>
@@ -36,7 +40,7 @@ export default function Home() {
             Independently owned places to stay. Book direct.
           </p>
           <ButtonLink variant="primary" href="/properties">
-            {" "}
+            {' '}
             View properties
           </ButtonLink>
         </div>
@@ -44,9 +48,9 @@ export default function Home() {
       <section className="py-6 md:py-14">
         <h2 className="text-heading-mobile md:text-heading">Our properties</h2>
         {properties.length === 0 ? (
-          <p className="mt-6 text-muted">No properties to show yet.</p>
+          <p className="text-muted mt-6">No properties to show yet.</p>
         ) : (
-          <ul className="mt-4 md:mt-6 grid gap-4 md:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-4 grid gap-4 sm:grid-cols-2 md:mt-6 md:gap-6 lg:grid-cols-3">
             {properties.slice(0, 3).map((property) => (
               <li key={property.slug}>
                 <PropertyCard property={property} description={true} />
@@ -60,7 +64,7 @@ export default function Home() {
         <h2 className="text-heading-mobile md:text-heading">
           From the journal
         </h2>
-        <ul className="mt-4 md:mt-6 grid gap-4 md:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-4 grid gap-4 sm:grid-cols-2 md:mt-6 md:gap-6 lg:grid-cols-3">
           {articles.slice(0, 3).map((article) => (
             <li key={article.slug}>
               <ArticleCard article={article} />

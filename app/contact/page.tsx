@@ -1,26 +1,26 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { Container } from "@/components/ui/container";
-import { getAllProperties } from "@/lib/content";
-import { site } from "@/lib/site";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { Container } from '@/components/ui/container';
+import { getAllProperties } from '@/lib/content';
+import { site } from '@/lib/site';
 export const metadata: Metadata = {
-  title: "Contact",
-  description: "Enquiries go direct to each property.",
-  alternates: { canonical: "/contact" },
+  title: 'Contact',
+  description: 'Enquiries go direct to each property.',
+  alternates: { canonical: '/contact' },
 };
 export default function ContactPage() {
   const properties = getAllProperties();
-  const telHref = `tel:${site.contact.phone.replace(/\s+/g, "")}`;
+  const telHref = `tel:${site.contact.phone.replace(/\s+/g, '')}`;
   return (
     <Container className="py-8 md:py-14">
       <h1 className="text-display-mobile md:text-display font-semibold">
         Contact
       </h1>
-      <p className="text-lead-mobile md:text-lead mt-2 text-muted">
+      <p className="text-lead-mobile md:text-lead text-muted mt-2">
         Enquiries go direct to each property.
       </p>
-      <p className="text-small-mobile md:text-small mt-4 text-muted">
-        Have a quick question? Read our{" "}
+      <p className="text-small-mobile md:text-small text-muted mt-4">
+        Have a quick question? Read our{' '}
         <Link href="/faq" className="text-accent hover:underline">
           FAQ
         </Link>
@@ -30,7 +30,7 @@ export default function ContactPage() {
         <h2 className="text-heading-mobile md:text-heading font-semibold">
           Enquiry hours
         </h2>
-        <div className="mt-4 space-y-1 text-muted">
+        <div className="text-muted mt-4 space-y-1">
           {site.contact.enquiryHours.map((line) => (
             <p key={line}>{line}</p>
           ))}
@@ -44,15 +44,15 @@ export default function ContactPage() {
           {properties.map((property) => (
             <li
               key={property.slug}
-              className="border border-border bg-surface p-6"
+              className="border-border bg-surface border p-6"
             >
               <h3 className="text-subheading-mobile md:text-subheading font-semibold">
                 {property.name}
               </h3>
-              <p className="text-small-mobile md:text-small mt-3 text-muted">
+              <p className="text-small-mobile md:text-small text-muted mt-3">
                 {property.town}, {property.county}
               </p>
-              <p className="text-small-mobile md:text-small mt-3 text-muted">
+              <p className="text-small-mobile md:text-small text-muted mt-3">
                 <a
                   href={`mailto:${site.contact.email}`}
                   className="hover:text-accent"
@@ -72,7 +72,25 @@ export default function ContactPage() {
         <h2 className="text-heading-mobile md:text-heading font-semibold">
           Where to find us
         </h2>
-        <div className="relative mt-6 w-full aspect-35/22 bg-surface md:aspect-15/4" />
+        <p className="text-muted mt-6">
+          Each house is in the town listed above. Open its location on a map:
+        </p>
+        <ul className="mt-4 space-y-2">
+          {properties.map((property) => (
+            <li key={property.slug}>
+              <a
+                href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(
+                  `${property.name}, ${property.town}, ${property.county}`,
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent font-medium hover:underline"
+              >
+                {property.name}, {property.town}
+              </a>
+            </li>
+          ))}
+        </ul>
       </section>
     </Container>
   );

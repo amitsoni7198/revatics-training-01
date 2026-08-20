@@ -14,8 +14,10 @@ an about page, a contact page and an FAQ.
 - **MDX** for the property and journal content
 - **Zod** for validating that content
 
-Pages are server-rendered by default. The only piece that runs in the browser
-is the date label, which shows dates in the visitor's own locale.
+Every page is server-rendered and prerendered to static HTML — there are no
+browser (`use client`) components at all. This repository is also the starting
+template that later Revatics projects are forked from, so the config, tokens and
+base components are meant to be reused.
 
 ## Getting started
 
@@ -46,9 +48,13 @@ Open http://localhost:3000.
 | `pnpm dev`       | Start the dev server                |
 | `pnpm build`     | Build for production                |
 | `pnpm start`     | Run the production build            |
-| `pnpm lint`      | Run ESLint                          |
+| `pnpm lint`      | Run ESLint (check only, no changes) |
+| `pnpm lint:fix`  | Run ESLint and fix what it can      |
 | `pnpm typecheck` | Check types with the TypeScript CLI |
 | `pnpm format`    | Format the code with Prettier       |
+
+On a fresh clone, run `pnpm build` once before `pnpm typecheck` — the build
+generates the gitignored `next-env.d.ts` that the type check needs.
 
 ## Folder structure
 
@@ -71,6 +77,9 @@ below.
   them to the pages.
 - If an article is marked as a draft, it is hidden everywhere — it does not show
   in any list, does not get its own page, and does not appear in the sitemap.
+- The journal list is paginated at nine articles per page: page one is
+  `/journal`, and the rest are static routes `/journal/page/2`, `/journal/page/3`
+  and so on.
 
 Because the content is checked when the site builds, a mistake in a file stops
 the build instead of shipping a broken page.

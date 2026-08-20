@@ -5,44 +5,45 @@ anyone else looks at it.
 
 ## Checks that pass
 
-- The site builds with no errors.
-- Types check with no errors.
-- Linting passes with no warnings.
+- `pnpm build` completes with no errors and no warnings.
+- `pnpm typecheck` and `pnpm lint` both pass, and `pnpm format:check` is clean.
+  In round 1 the Prettier config filename was wrong, so it had never actually
+  run and I wrongly reported it as passing. It runs now.
+- No `use client` anywhere in the source. The whole site is server-rendered,
+  including the dates.
+- Every route is prerendered. The journal now paginates into static pages
+  (`/journal`, `/journal/page/2` …) instead of one dynamic route.
 - Draft articles are hidden from every list, have no page, and are not in the
   sitemap.
 - Every page has its own title and description, a canonical link, and a social
   share image. Properties also have structured data.
-- The layout works from mobile width up to desktop.
-- Links, buttons and the menu work with the keyboard, and images have alt text.
+- One `<h1>` per page with no skipped heading levels; `muted` text now meets
+  WCAG AA on the surface colour; the footer is valid list markup.
+- The layout works from mobile width up to desktop; images have alt text and
+  correct responsive `sizes`.
 
-## Known gaps
+## Known gaps (raised as questions with the client)
 
-- **Placeholder images.** Room photos, some staff portraits, and the maps are
-  grey placeholders because no real images were provided. They are ready to be
-  swapped for real files.
-- **Shared contact details.** The contact page shows the same email and phone for
-  every property, because the content does not include per-property contact
-  details or street addresses.
-- **Date label runs in the browser.** Showing dates in the visitor's locale needs
-  the browser, so the date is the one small part that is not server-only.
+- **About "people" and full story.** No real names, roles or history were
+  supplied, so the invented ones from round 1 were removed rather than shipped
+  (RV-I06). The section is left out until the client provides real content.
+- **Maps and addresses.** The content has no street addresses or coordinates, so
+  the contact and property pages link out to a map search instead of embedding a
+  map. A proper embedded map is pending real addresses.
 
 ## Where I struggled
 
-Being honest about the parts I found hard:
-
-- At first glance I understood the overall idea of what I had to build, but
-  working out the details took longer.
-- Most of the time my first thought was to reach for a browser component
-  (`use client`), because that felt like the easy way to get something working.
-  I need to stop and check whether the server can do it first.
-- I am still weak on the logic, on understanding how the pieces fit together, and
-  on writing and validating the content schemas.
-- These are the areas I need to research more and keep practising until I can fix
-  them on my own.
+- My first instinct was still to reach for a browser component (`use client`)
+  before checking whether the server could do it. Round 1 shipped exactly that
+  for the date label, and it had to be removed.
+- The bigger lesson from the review: several things I decided quietly —
+  pagination, where the FAQ belongs, the missing About content, a rule conflict —
+  should have been questions to the client on day one, not decisions on day five.
+- I still want more practice on how the pieces fit together and on writing and
+  validating the content schemas.
 
 ## What I would do next
 
-- Add real room, portrait and map images.
-- Add a separate email, phone and address for each property in the content, and
-  show those on the contact page.
+- Add the real About content and a proper embedded map once the client supplies
+  the details.
 - Add a small set of automated tests for the content loading and the pages.

@@ -1,5 +1,5 @@
-import type { MDXComponents } from "mdx/types";
-import Link from "next/link";
+import type { MDXComponents } from 'mdx/types';
+import Link from 'next/link';
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -22,12 +22,12 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     blockquote: (props) => (
       <blockquote
-        className="text-subheading-mobile md:text-subheading my-8 border-l-4 border-accent pl-6 font-medium"
+        className="text-subheading-mobile md:text-subheading border-accent my-8 border-l-4 pl-6 font-medium"
         {...props}
       />
     ),
-    a: ({ href = "", ...props }) =>
-      href.startsWith("/") ? (
+    a: ({ href = '', ...props }) =>
+      href.startsWith('/') ? (
         <Link
           href={href}
           className="text-accent underline hover:opacity-90"
