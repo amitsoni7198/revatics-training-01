@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import { Container } from "@/components/ui/container";
-import { ArticleCard } from "@/components/ArticleCard";
-import { getAllArticles, getArticle } from "@/lib/content";
-import { notFound } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import { FormattedDate } from "@/components/ui/FormattedDate";
+import type { Metadata } from 'next';
+import { Container } from '@/components/ui/container';
+import { ArticleCard } from '@/components/ArticleCard';
+import { getAllArticles, getArticle } from '@/lib/content';
+import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FormattedDate } from '@/components/ui/FormattedDate';
 
 type PageProps = {
   params: Promise<{
@@ -52,19 +52,19 @@ export default async function ArticleDetailPage({ params }: PageProps) {
   return (
     <Container className="py-8 md:py-14">
       <article>
-        <div className="mx-auto max-w-reading">
+        <div className="max-w-reading mx-auto">
           <div className="text-small-mobile md:text-small text-muted">
             <Link href="/journal">Journal</Link> / {article.title}
           </div>
           <h1 className="text-display-mobile md:text-display mt-2 font-semibold">
             {article.title}
           </h1>
-          <p className="text-small-mobile md:text-small mt-3 text-muted">
+          <p className="text-small-mobile md:text-small text-muted mt-3">
             <FormattedDate date={article.date} /> · Written by {article.author}
           </p>
         </div>
 
-        <div className="relative mt-6 mb-8 w-full aspect-4/3 bg-surface md:mt-8 md:mb-10 md:aspect-3/1">
+        <div className="bg-surface relative mt-6 mb-8 aspect-4/3 w-full md:mt-8 md:mb-10 md:aspect-3/1">
           {article.image && article.imageAlt && (
             <Image
               src={article.image}
@@ -77,7 +77,7 @@ export default async function ArticleDetailPage({ params }: PageProps) {
           )}
         </div>
 
-        <div className="mx-auto max-w-reading">
+        <div className="max-w-reading mx-auto">
           <ArticleBody />
         </div>
       </article>

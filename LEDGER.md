@@ -1,6 +1,6 @@
 # Revatics Standards Ledger
 
-**Version:** 1.0 — in force from Project 01
+**Version:** 1.1 — in force from Project 01 (amended after the Project 01 review)
 **Applies to:** all Next.js projects in the training programme, and to client work thereafter
 
 ---
@@ -53,7 +53,7 @@ If you think a rule is wrong, say so. Rules get amended when the argument is goo
 
 **RV-B07** No index-based React keys on lists whose order or contents can change.
 
-**RV-B08** Every route segment that fetches or can fail has an `error.tsx`. Every page that can be reached with invalid parameters handles that case explicitly.
+**RV-B08** Every route segment that fetches or can fail has an `error.tsx`. Every page that can be reached with invalid parameters handles that case explicitly. _Amended (Project 01): where a project constraint makes `error.tsx` impossible (e.g. a ban on `use client`), the requirement is waived for that project and the conflict must be raised with the reviewer rather than resolved silently._
 
 **RV-B09** Every view is designed for four states: loading, empty, error, and — where relevant — offline. A view that only handles the success case is incomplete.
 
@@ -95,7 +95,7 @@ If you think a rule is wrong, say so. Rules get amended when the argument is goo
 
 **RV-D05** Colour is never the only means of conveying information.
 
-**RV-D06** Contrast meets WCAG 2.2 AA: 4.5:1 for body text, 3:1 for large text and interactive boundaries.
+**RV-D06** Contrast meets WCAG 2.2 AA: 4.5:1 for body text, 3:1 for large text and interactive boundaries. _Amended (Project 01): supplied design tokens are to be contrast-checked, not trusted. The Harbourview `muted` token was corrected to #6B6B73._
 
 **RV-D07** Zero axe violations on every page.
 
@@ -111,7 +111,7 @@ If you think a rule is wrong, say so. Rules get amended when the argument is goo
 
 **RV-E02** Cumulative Layout Shift of zero. Reserve space for every image, embed and dynamically sized element.
 
-**RV-E03** First Load JS budget defined per project and enforced. Exceeding it requires investigation, not an exception.
+**RV-E03** First Load JS budget defined per project and enforced. Exceeding it requires investigation, not an exception. _Amended (Project 01): Next 16 Turbopack builds do not print per-route bundle sizes, so this budget cannot be verified from build output alone. Waived for Project 01; enforced from Project 09 onwards using `@next/bundle-analyzer`._
 
 **RV-E04** No dependency added for functionality achievable in under about thirty lines of your own code.
 
@@ -181,6 +181,8 @@ If you think a rule is wrong, say so. Rules get amended when the argument is goo
 
 **RV-I05** Code comments explain _why_, not what. A comment restating the line above it is noise.
 
+**RV-I06** Where required content is not supplied, it is raised as a question. Content is never invented — names, roles, addresses, prices and history in particular. _Added after the Project 01 review._
+
 ---
 
 ## J — Judgement
@@ -201,6 +203,10 @@ These are not mechanical, and they are graded.
 
 ## Amendments
 
-| Date | Rule | Change          | Source          |
-| ---- | ---- | --------------- | --------------- |
-| —    | —    | Initial version | Programme setup |
+| Date       | Rule   | Change                                                                          | Source                           |
+| ---------- | ------ | ------------------------------------------------------------------------------- | -------------------------------- |
+| —          | —      | Initial version                                                                 | Programme setup                  |
+| 2026-08-20 | RV-B08 | Waived where a constraint makes `error.tsx` impossible; conflict must be raised | Project 01 review (brief defect) |
+| 2026-08-20 | RV-I06 | New: missing content is a question; content is never invented                   | Project 01 review (finding J1)   |
+| 2026-08-20 | RV-D06 | Harbourview `muted` corrected to #6B6B73; verify supplied tokens                | Project 01 review (finding B6)   |
+| 2026-08-20 | RV-E03 | First Load JS unmeasurable in Turbopack; waived for Project 01                  | Project 01 review (brief defect) |

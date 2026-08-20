@@ -1,17 +1,23 @@
-import Image from "next/image";
-import Link from "next/link";
-import type { ArticleWithSlug } from "@/lib/content";
-import { FormattedDate } from "@/components/ui/FormattedDate";
+import Image from 'next/image';
+import Link from 'next/link';
+import type { ArticleWithSlug } from '@/lib/content';
+import { FormattedDate } from '@/components/ui/FormattedDate';
 
 const CARD_IMAGE_SIZES =
-  "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 384px";
+  '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 384px';
 
-export function ArticleCard({ article }: { article: ArticleWithSlug }) {
+export function ArticleCard({
+  article,
+  as: Heading = 'h3',
+}: {
+  article: ArticleWithSlug;
+  as?: 'h2' | 'h3';
+}) {
   const href = `/journal/${article.slug}`;
 
   return (
     <article className="flex flex-col gap-2">
-      <div className="relative aspect-3/2 w-full overflow-hidden bg-surface">
+      <div className="bg-surface relative aspect-3/2 w-full overflow-hidden">
         {article.image && article.imageAlt && (
           <Image
             src={article.image}
@@ -24,12 +30,12 @@ export function ArticleCard({ article }: { article: ArticleWithSlug }) {
       </div>
 
       <FormattedDate date={article.date} className="text-small text-muted" />
-      <h3 className="text-subheading font-semibold">
+      <Heading className="text-subheading font-semibold">
         <Link href={href} className="hover:text-accent">
           {article.title}
         </Link>
-      </h3>
-      <p className=" text-muted">{article.excerpt}</p>
+      </Heading>
+      <p className="text-muted">{article.excerpt}</p>
     </article>
   );
 }
